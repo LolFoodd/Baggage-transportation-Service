@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Редактировать Отчет #{{ report['number'] }}</h2>
+<form method="post">
+    <div class="mb-3">
+        <label for="number" class="form-label">Номер</label>
+        <input type="text" class="form-control" id="number" name="number" value="{{ report['number'] }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="date" class="form-label">Дата</label>
+        <input type="date" class="form-control" id="date" name="date" value="{{ report['date'] }}" required>
+    </div>
+
+
+     <div class="row mb-3">
+        <label for="report_type" class="col-sm-0 col-form-label">Тип</label>
+        <div class="col-sm-8">
+            <select class="form-select" name="report_type">
+                <option value='По компании'>По компании</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="row mb-3">
+        <label for="employee" class="col-sm-0 col-form-label">Сотрудник</label>
+        <div class="col-sm-8">
+            <select class="form-select" name="employee">
+                <option value='0'>Сотрудник...</option>
+                {% for e in employees %}
+                    <option value="{{ e.id_employee }}" {% if e.id_employee == report['employee_id'] %}selected{% endif %}>{{ e.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Описание</label>
+        <textarea class="form-control" id="description" name="description" rows="5" required>{{ report['description'] }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="{{ url_for('report', report_id=report['id_report']) }}" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}

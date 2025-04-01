@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{% block title %} Добавление новой описи вещей {% endblock %}</h1>
+<br>
+<form method="post" class="px-4">
+
+
+    <div class="row mb-4">
+        <label for="count" class="col-sm-3 col-form-label">Количество вещей, шт</label>
+        <div class="col-sm-2">
+            <input type="number" class="form-control" name="count" value="{{ request.form['count'] }}" placeholder="25">
+        </div>
+    </div>
+
+
+    <div class="row mb-3">
+        <label for="price" class="col-sm-3 col-form-label">Примерная цена вещей, ₽</label>
+        <div class="col-sm-4">
+            <input type="number" class="form-control" name="price" value="{{ request.form['price'] }}" placeholder="32453" min="0" step="0.1">
+        </div>
+    </div>
+
+
+     <div class="row mb-3">
+        <label for="insurance" class="col-sm-3 col-form-label">Страхование груза</label>
+        <div class="col-sm-2">
+            <select class="form-select" name="insurance">
+                <option value='0'>Выбор...</option>
+                <option value='0'>нет</option>
+                <option value='1'>да</option>
+            </select>
+        </div>
+    </div>
+
+
+<div class="row mb-3">
+    <label for="weight" class="col-sm-3 col-form-label">Вес груза, кг</label>
+    <div class="col-sm-2">
+        <input type="number" class="form-control" name="weight" value="{{ request.form['weight'] }}" placeholder="54" min="0" step="1">
+    </div>
+</div>
+
+
+     <div class="row mb-3">
+        <label for="oversized" class="col-sm-3 col-form-label">Крупногабаритный груз</label>
+        <div class="col-sm-2">
+            <select class="form-select" name="oversized">
+                <option value='0'>Выбор...</option>
+                <option value='0'>нет</option>
+                <option value='1'>да</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="row mb-3">
+        <label for="owner" class="col-sm-3 col-form-label">Клиент</label>
+        <div class="col-sm-8">
+            <select class="form-select" name="owner">
+                <option value='0'>Клиент...</option>
+                {% for c in clients %}
+                    <option value={{c.id_client}}>{{c.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary"><i class="fs-6 bi bi-box-seam"></i> Добавить опись вещей</button>
+</form>
+
+{% endblock %}

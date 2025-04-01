@@ -1,0 +1,97 @@
+@app.route('/download_report/<int:report_id>', methods=('GET', 'POST'))
+def download_report(report_id):
+    report = get_report(report_id)
+    if request.method == 'POST':
+        period = request.form['period']
+        report_type = report['report_type']
+        if report_type == "По компании":
+            return generate_company_report(report, period)
+        elif report_type == "По сотрудникам":
+            return generate_employee_report(report, period)
+    return render_template('select_period.html', report=report)
+
+
+def generate_company_report(report, period):
+    conn = get_db_connection()
+
+    doc = Document('reports/report_company.docx')
+
+    # Заполнение полей в шаблоне
+    doc.paragraphs[0].text = doc.paragraphs[0].text.replace('{{NUMBER}}', report['number'])
+    doc.paragraphs[3].text = doc.paragraphs[3].text.replace('{{DATE}}', report['date'])
+    doc.paragraphs[4].text = doc.paragraphs[4].text.replace('{{EMPLOYEE}}', report['employee_name'])
+    doc.paragraphs[7].text = doc.paragraphs[7].text.replace('{{PERIOD}}', period)
+
+    period_parts = period.split(' - ')
+    if len(period_parts) != 2:
+        raise ValueError("Period must be in 'YYYY-MM-DD - YYYY-MM-DD' format")
+    period_start, period_end = period_parts
+
+    contracts = conn.execute("""
+        SELECT number, date, address_start, address_finish, finish_price, employee_id
+        FROM contracts
+        WHERE date BETWEEN ? AND ?
+    """, (period_start, period_end)).fetchall()
+
+    table = doc.tables[0]
+
+    total_sum = 0
+    for i, contract in enumerate(contracts):
+        row = table.add_row().cells
+        row[0].text = str(i + 1)
+        row[1].text = f"№{contract['number']} от {contract['date']}"
+        row[2].text = contract['address_start']
+        row[3].text = contract['address_finish']
+        row[4].text = str(contract['finish_price'])
+        employee = conn.execute("SELECT name FROM employees WHERE id_employee = ?",
+                                (contract['employee_id'],)).fetchone()
+        row[5].text = employee['name']
+        total_sum += contract['finish_price']
+
+    # Заполнение итоговой таблицы
+    doc.tables[1].rows[1].cells[1].text = str(len(contracts))
+    doc.tables[1].rows[2].cells[1].text = str(total_sum)
+
+    conn.close()
+
+    output_path = 'reports/generated_report_company.docx'
+    doc.save(output_path)
+
+    return send_file(output_path, as_attachment=True)
+
+
+
+
+{% extends 'base.html' %}
+{% block content %}
+<h2>Выберите период для отчета #{{ report['number'] }}</h2>
+<form method="post" onsubmit="combineDates(event)">
+    <div class="mb-3">
+        <label for="start_date" class="form-label">Дата начала</label>
+        <input type="date" class="form-control" id="start_date" name="start_date">
+    </div>
+    <div class="mb-3">
+        <label for="end_date" class="form-label">Дата конца</label>
+        <input type="date" class="form-control" id="end_date" name="end_date">
+    </div>
+    <input type="hidden" id="period" name="period">
+    <button type="submit" class="btn btn-primary">Сформировать отчет</button>
+</form>
+
+<script>
+    function combineDates(event) {
+        event.preventDefault();
+        const startDate = document.getElementById('start_date').value;
+        const endDate = document.getElementById('end_date').value;
+        const periodField = document.getElementById('period');
+
+        if (startDate && endDate) {
+            periodField.value = `${startDate} - ${endDate}`;
+            event.target.submit();
+        } else {
+            alert('Пожалуйста, выберите оба периода: дату начала и дату конца.');
+        }
+    }
+</script>
+{% endblock %}
+

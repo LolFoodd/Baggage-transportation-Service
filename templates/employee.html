@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{% block title %} Сотрудник {{ employee['name'] }} {% endblock %}</h2>
+<hr>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Позиция</th>
+            <th scope="col">Значение</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Имя</td>
+            <td>{{ employee['name'] }}</td>
+        </tr>
+        <tr>
+            <td>Телефон</td>
+            <td>{{ employee['phone_number'] }}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>{{ employee['email'] }}</td>
+        </tr>
+        <tr>
+            <td>Должность</td>
+            <td>{{ employee['position'] }}</td>
+        </tr>
+        <tr>
+            <td>Отдел</td>
+            <td>{{ employee['department'] }}</td>
+        </tr>
+    </tbody>
+</table>
+<a href="/employees">
+    <button type="submit" class="btn btn-secondary"><i class="fs-6 bi bi-arrow-left"></i> Назад к списку сотрудников</button>
+</a>
+
+<a href="{{ url_for('edit_employee', employee_id=employee['id_employee']) }}">
+    <button type="button" class="btn btn-primary">Редактировать</button>
+</a>
+{% endblock %}

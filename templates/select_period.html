@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Выберите период для отчета #{{ report['number'] }}</h2>
+<form method="post" onsubmit="combineDates(event)">
+    <div class="mb-3">
+        <label for="start_date" class="form-label">Дата начала</label>
+        <input type="date" class="form-control" id="start_date" name="start_date">
+    </div>
+    <div class="mb-3">
+        <label for="end_date" class="form-label">Дата конца</label>
+        <input type="date" class="form-control" id="end_date" name="end_date">
+    </div>
+    <input type="hidden" id="period" name="period">
+    <button type="submit" class="btn btn-primary">Сформировать отчет</button>
+    <a href="javascript:history.back()" onclick="location.reload();" class="btn btn-secondary">Назад</a>
+</form>
+
+<script>
+    function combineDates(event) {
+        event.preventDefault();
+        const startDate = document.getElementById('start_date').value;
+        const endDate = document.getElementById('end_date').value;
+        const periodField = document.getElementById('period');
+
+        if (startDate && endDate) {
+            periodField.value = `${startDate} - ${endDate}`;
+            event.target.submit();
+        } else {
+            alert('Пожалуйста, выберите оба периода: дату начала и дату конца.');
+        }
+    }
+</script>
+{% endblock %}

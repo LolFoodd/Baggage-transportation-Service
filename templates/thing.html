@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{% block title %} Опись вещей {{ thing['id_thing']}} по договору # {{ thing['number'] }} от {{ thing['date'] }} {% endblock %}</h2>
+{% if thing['deal_status']==False %}
+<span class="badge bg-danger"> в работе </span>
+{% else %}
+<span class="badge bg-success"> сделка завершена </span>
+{% endif %}
+<hr>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Позиция</th>
+            <th scope="col">Значение</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Количество вещей</th>
+            <td>{{ thing['count'] }} шт</th>
+        </tr>
+        <tr>
+            <td>Стоимость вещей</th>
+            <td>{{ thing['price'] }} ₽</th>
+        </tr>
+        <tr>
+            <td>Наличие страхования</th>
+            <td>
+                {% if thing['insurance'] == False %}
+                    <span class="badge bg-danger">нет</span>
+                {% else %}
+                    <span class="badge bg-success">да</span>
+                {% endif %}
+            </th>
+        </tr>
+        <tr>
+            <td>Вес вещей</th>
+            <td>{{ thing['weight'] }} кг</th>
+        </tr>
+        <tr>
+            <td>Негабаритные вещи</th>
+            <td>
+                {% if thing['oversized'] == False %}
+                    <span class="badge bg-danger">нет</span>
+                {% else %}
+                    <span class="badge bg-success">да</span>
+                {% endif %}
+            </th>
+        </tr>
+        <tr>
+            <td>Клиент</th>
+            <td>{{ thing['name'] }}</th>
+        </tr>
+        <tr>
+            <td>Контакты клиента</th>
+            <td>тел.: {{ thing['phone_number'] }}, почта: {{ thing['email'] }}</th>
+        </tr>
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-auto">
+        <a href="/clients">
+            <button type="submit" class="btn btn-secondary"><i class="fs-6 bi bi-person"></i> Перейти к клиентам</button>
+        </a>
+    </div>
+    <div class="col-auto">
+        <a href="{{ url_for('contract', contract_id=thing['id_contract']) }}">
+            <button type="submit" class="btn btn-secondary"><i class="fs-6 bi bi-file-earmark-text"></i> Перейти к договору</button>
+        </a>
+    </div>
+    <div class="col-auto">
+        <a href="{{ url_for('edit_thing', thing_id=thing['id_thing']) }}">
+            <button type="submit" class="btn btn-primary"><i class="bi-pencil"></i> Редактировать</button>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

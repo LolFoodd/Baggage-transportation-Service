@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{% block title %} Новый сотрудник {% endblock %}</h1>
+
+<form method="post">
+
+    <div class="mb-3">
+        <label for="name" class="form-label">Имя</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+
+     <div class="row mb-3">
+        <label for="department" class="col-sm-0 col-form-label">Отдел</label>
+        <div class="col-sm-8">
+            <select class="form-select" name="department">
+                <option value=''>Выбор...</option>
+                <option value='Отдел приема заказов'>Отдел приема заказов</option>
+                <option value='Отдел отслеживания грузов'>Отдел отслеживания грузов</option>
+                <option value='Отдел связи с клиентами'>Отдел связи с клиентами</option>
+                <option value='Технический отдел'>Технический отдел</option>
+                <option value='Отдел транспортной эксплуатации'>Отдел транспортной эксплуатации</option>
+                <option value='Отдел аварийной помощи'>Отдел аварийной помощи</option>
+                <option value='Лигистический отдел'>Лигистический отдел</option>
+                <option value='Отдел маршрутизации и планирования'>Отдел маршрутизации и планирования</option>
+                <option value='Отдел закупок и лизинга'>Отдел закупок и лизинга</option>
+                <option value='Финансовый отдел'>Финансовый отдел</option>
+                <option value='Отдел кадров'>Отдел кадров</option>
+                <option value='Отдел информационных технологий'>Отдел информационных технологий</option>
+                <option value='Маркетинговый отдел'>Маркетинговый отдел</option>
+                <option value='Администрация'>Администрация</option>
+                <option value='Бухгалтерия'>Бухгалтерия</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="mb-3">
+        <label for="position" class="form-label">Должность</label>
+        <input type="text" class="form-control" id="position" name="position" required>
+    </div>
+
+
+    <div class="mb-3">
+        <label for="phone_number" class="form-label">Телефон</label>
+        <input type="text" class="form-control" id="phone_number" name="phone_number" required>
+    </div>
+
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+
+
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+
+</form>
+
+{% endblock %}

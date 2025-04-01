@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{% block title %} Описи вещей {% endblock %}</h1>
+
+<div class="container mt-5 mb-3">
+    <div class="row">
+        {% for thing in things %}
+        <div class="col-md-4">
+            <div class="card p-3 mb-2 border-primary">
+                <div class="card-header">
+                    <a href="{{ url_for('thing', thing_id=thing['id_thing']) }}">>
+                        <b>Опись вещей {{ thing['id_thing']}} по договору # {{ thing['number'] }} от {{ thing['date'] }}</b>
+                    </a>
+                    <br>
+                    {% if thing['deal_status']==False %}
+                    <span class="badge bg-danger"> в работе </span>
+                    {% else %}
+                    <span class="badge bg-success"> сделка завершена </span>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ thing['address_finish'] }} <span class="badge bg-primary">{{
+                            thing['finish_price'] }} ₽</span></h5>
+                    <span class="badge bg-success">количество {{ thing['count'] }}</span>
+                    <span class="badge bg-danger">{{ thing['weight'] }}-кг</span>
+                    <span class="badge bg-info">стоимость {{ thing['price'] }}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

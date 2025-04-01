@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Редактировать Сотрудника {{ employee['name'] }}</h2>
+<form method="post">
+    <div class="form-group">
+        <label for="name">Имя</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ employee['name'] }}">
+    </div>
+    <div class="form-group">
+        <label for="position">Должность</label>
+        <input type="text" class="form-control" id="position" name="position" value="{{ employee['position'] }}">
+    </div>
+    <div class="form-group">
+        <label for="phone_number">Телефон</label>
+        <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ employee['phone_number'] }}">
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" value="{{ employee['email'] }}">
+    </div>
+    <div class="form-group">
+        <label for="department">Отдел</label>
+        <select class="form-control" id="department" name="department">
+            <option value=''>Выбор...</option>
+            <option value='Отдел приема заказов' {% if employee['department'] == 'Отдел приема заказов' %}selected{% endif %}>Отдел приема заказов</option>
+            <option value='Отдел отслеживания грузов' {% if employee['department'] == 'Отдел отслеживания грузов' %}selected{% endif %}>Отдел отслеживания грузов</option>
+            <option value='Отдел связи с клиентами' {% if employee['department'] == 'Отдел связи с клиентами' %}selected{% endif %}>Отдел связи с клиентами</option>
+            <option value='Технический отдел' {% if employee['department'] == 'Технический отдел' %}selected{% endif %}>Технический отдел</option>
+            <option value='Отдел транспортной эксплуатации' {% if employee['department'] == 'Отдел транспортной эксплуатации' %}selected{% endif %}>Отдел транспортной эксплуатации</option>
+            <option value='Отдел аварийной помощи' {% if employee['department'] == 'Отдел аварийной помощи' %}selected{% endif %}>Отдел аварийной помощи</option>
+            <option value='Логистический отдел' {% if employee['department'] == 'Логистический отдел' %}selected{% endif %}>Логистический отдел</option>
+            <option value='Отдел маршрутизации и планирования' {% if employee['department'] == 'Отдел маршрутизации и планирования' %}selected{% endif %}>Отдел маршрутизации и планирования</option>
+            <option value='Отдел закупок и лизинга' {% if employee['department'] == 'Отдел закупок и лизинга' %}selected{% endif %}>Отдел закупок и лизинга</option>
+            <option value='Финансовый отдел' {% if employee['department'] == 'Финансовый отдел' %}selected{% endif %}>Финансовый отдел</option>
+            <option value='Отдел кадров' {% if employee['department'] == 'Отдел кадров' %}selected{% endif %}>Отдел кадров</option>
+            <option value='Отдел информационных технологий' {% if employee['department'] == 'Отдел информационных технологий' %}selected{% endif %}>Отдел информационных технологий</option>
+            <option value='Маркетинговый отдел' {% if employee['department'] == 'Маркетинговый отдел' %}selected{% endif %}>Маркетинговый отдел</option>
+            <option value='Администрация' {% if employee['department'] == 'Администрация' %}selected{% endif %}>Администрация</option>
+            <option value='Бухгалтерия' {% if employee['department'] == 'Бухгалтерия' %}selected{% endif %}>Бухгалтерия</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Сохранить</button>
+    <a href="{{ url_for('employee', employee_id=employee['id_employee']) }}" class="btn btn-secondary" style="margin-top: 20px;">Отмена</a>
+</form>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{% block title %} Отчет #{{ report['number'] }} {% endblock %}</h2>
+<hr>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Позиция</th>
+            <th scope="col">Значение</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Номер</td>
+            <td>{{ report['number'] }}</td>
+        </tr>
+        <tr>
+            <td>Дата</td>
+            <td>{{ report['date'] }}</td>
+        </tr>
+        <tr>
+            <td>Тип</td>
+            <td>{{ report['report_type'] }}</td>
+        </tr>
+        <tr>
+            <td>Описание</td>
+            <td>{{ report['description'] }}</td>
+        </tr>
+        <tr>
+            <td>Сотрудник</td>
+            <td>{{ report['employee_name'] }}</td>
+        </tr>
+    </tbody>
+</table>
+<a href="/reports">
+    <button type="submit" class="btn btn-secondary"><i class="fs-6 bi bi-arrow-left"></i> Назад к списку отчетов</button>
+</a>
+<a href="{{ url_for('edit_report', report_id=report['id_report']) }}">
+    <button type="button" class="btn btn-primary">Редактировать</button>
+</a>
+<a href="{{ url_for('download_report', report_id=report['id_report']) }}">
+    <button type="button" class="btn btn-success">Скачать отчет</button>
+</a>
+{% endblock %}

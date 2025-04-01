@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{% block title %} Редактирование договора #{{ contract['number'] }} {% endblock %}</h1>
+<br>
+<form method="post" class="px-4">
+
+    <div class="row mb-3">
+        <label for="number-date" class="col-sm-3 col-form-label">Номер, дата договора</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" name="number" value="{{ contract['number'] }}" placeholder="1234">
+        </div>
+        <div class="col-sm-2">
+            <input type="date" class="form-control" name="date" value="{{ contract['date'] }}" placeholder="2024-07-25">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="address_start" class="col-sm-3 col-form-label">Начальный адрес</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" name="address_start" value="{{ contract['address_start'] }}" placeholder="г. Троицк, Микрорайон В д. 5, кв. 6">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="address_finish" class="col-sm-3 col-form-label">Адрес доставки</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" name="address_finish" value="{{ contract['address_finish'] }}" placeholder="г. Троицк, Микрорайон В д. 10, кв. 25">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="thing" class="col-sm-3 col-form-label">Опись вещей</label>
+        <div class="col-sm-8">
+            <select class="form-select" name="thing" id="thing">
+                <option value="" >Опись... </option>
+                {% for a in things %}
+                    <option value="{{ a.id_thing }},{{ a.client_id }}" {% if a.id_thing == contract['thing_id'] %}selected{% endif %}>Опись вещей {{ a.id_thing }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="price-discount" class="col-sm-3 col-form-label">Стоимость, возможная скидка </label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" name="start_price" value="{{ contract['start_price'] }}" placeholder="50000">
+        </div>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" name="discount" value="{{ contract['discount'] }}" placeholder="3">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="employee" class="col-sm-3 col-form-label">Сотрудник</label>
+        <div class="col-sm-8">
+            <select class="form-select" name="employee">
+                <option value="0">Сотрудник...</option>
+                {% for e in employees %}
+                    <option value="{{ e.id_employee }}" {% if e.id_employee == contract['employee_id'] %}selected{% endif %}>{{ e.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="deal_status" class="col-sm-3 col-form-label">Статус сделки</label>
+        <div class="col-sm-8">
+            <select class="form-select" name="deal_status">
+                <option value="0" {% if contract['deal_status'] == 0 %}selected{% endif %}>В работе</option>
+                <option value="1" {% if contract['deal_status'] == 1 %}selected{% endif %}>Сделка завершена</option>
+            </select>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary"><i class="bi-file-earmark-binary"></i> Сохранить изменения</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{% block title %} Новый отчет {% endblock %}</h1>
+
+<form method="post">
+
+
+
+    <div class="mb-3">
+        <label for="number" class="form-label">Номер</label>
+        <input type="text" class="form-control" id="number" name="number" required>
+    </div>
+
+
+
+    <div class="mb-3">
+        <label for="date" class="form-label">Дата</label>
+        <input type="date" class="form-control" id="date" name="date" required>
+    </div>
+
+
+
+     <div class="row mb-3">
+        <label for="report_type" class="col-sm-0 col-form-label">Тип</label>
+        <div class="col-sm-8">
+            <select class="form-select" name="report_type">
+                <option value='По компании'>По компании</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="row mb-3">
+        <label for="employee" class="col-sm-0 col-form-label">Сотрудник</label>
+        <div class="col-sm-8">
+            <select class="form-select" name="employee">
+                <option value='0'>Сотрудник...</option>
+                {% for e in employees %}
+                    <option value={{e.id_employee}}>{{e.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+
+
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+
+{% endblock %}
